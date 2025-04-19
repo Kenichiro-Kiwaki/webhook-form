@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>Webhook作業報告送信</title>
+</head>
+<body>
+  <h2>作業報告フォーム</h2>
+  <textarea id="log" rows="10" cols="60" placeholder="作業報告を入力してください..."></textarea><br />
+  <button onclick="sendLog()">送信</button>
+  <p id="status"></p>
+
+  <script>
+    async function sendLog() {
+      const log = document.getElementById("log").value;
+      const res = await fetch("https://webhook-relay-mgjq.onrender.com/webhook", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ log })
+      });
+      const text = await res.text();
+      document.getElementById("status").innerText = "✅ 送信完了：" + text;
+    }
+  </script>
+</body>
+</html>
